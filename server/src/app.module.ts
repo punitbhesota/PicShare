@@ -5,17 +5,18 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { PhotosModule } from './modules/photos/photos.module';
 import { PayloadValidationMiddleware } from './shared/middleware/payload-validation.middleware';
+import { DATABASE, HOST, PASSWORD, PORT, USERNAME } from './config';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: "postgres",
-      host: "localhost",
-      port: 5432,
-      username: "postgres",
-      password: "password",
-      database: "picshare",
+      host: HOST,
+      port: PORT,
+      username: USERNAME,
+      password: PASSWORD,
+      database: DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
