@@ -1,0 +1,50 @@
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+  
+.app-header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+}
+
+.desktop-menu{
+    flex:1 
+}
+
+.desktop-menu-buttons{
+    flex:1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.user-actions{
+    display: flex;
+    gap:20px;
+    align-items: center;
+}
+
+.login-actions{
+    display: flex;
+    justify-content: flex-end;
+}
+.login-btn{
+    max-width:100px;
+}
+
+.mobile-menu-buttons{
+    display: flex;
+    flex-direction: column;
+}
+
+.share-btn{
+    margin-bottom: 15px;
+}
