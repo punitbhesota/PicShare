@@ -7,7 +7,7 @@
 
 .card-image{  
     width: 100%;
-    height: 100%;
+    height: 180px;
     object-fit: cover;
 }
 
@@ -17,9 +17,24 @@
     align-items: flex-start;
 }
 
+.card-info-2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .card-name-date{
     display: flex;
     flex-direction: column;
+    gap:10px;
+    color:grey;
+}
+
+.card-name-date-2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap:10px;
     color:grey;
 }

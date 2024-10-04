@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Layout, message } from 'antd';
 import Header from './components/Header/Header';
@@ -5,8 +6,6 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import HomePage from './pages/HomePage/HomePage';
 import ShareModal from './components/ShareModal/ShareModal';
 import './App.css';
-
-const { Content } = Layout;
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,7 +30,8 @@ const App: React.FC = () => {
         localStorage.setItem('username',name); 
         setUsername(name)
         setIsLoggedIn(true)
-
+        window.location.assign('/home')
+      
         message.success('Logged in successfully!');
       } else {
         message.error('Login failed');
@@ -71,26 +71,23 @@ const App: React.FC = () => {
   },[])
 
   return (
-    <Layout>
+    <Router>
+      <Layout>
       <Header 
         onLogout={handleLogout} 
         onShareClick={handleSharePicClick} 
         onSelectTab={selectTab}
         name={username}
       />
-      <Content className="content">
-        {isLoggedIn ? (
-          favorites ? (
-            <HomePage isFavorite={true} /> 
-          ) : (
-            <HomePage isFavorite={false} /> 
-          )
-        ) : (
-          <LoginPage handleSubmit={handleSubmit} />
-        )}
-      </Content>
+        <Routes>
+            <Route path='/home' element={<HomePage isFavorite={true} />}></Route>
+            {/* <Route path='/home' element={<HomePage isFavorite={false} />}></Route> */}
+            <Route path='/login' element={<LoginPage handleSubmit={handleSubmit} />}></Route>
+        </Routes>
       <ShareModal visible={isModalVisible} onCancel={handleModalCancel} />
     </Layout>
+    </Router>
+    
   );
 };
 

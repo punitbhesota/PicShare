@@ -57,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({name, onLogout, onShareClick, onSelectTa
 
   return (
     <header className="app-header">
-      <div className="logo">PicShare</div>
+      <div className="logo"><a href='/home' style={{textDecoration:"none",color:"black"}}>PicShare</a></div>
       {isMobile ? (
         <Button className="mobile-menu-button" onClick={showDrawer} icon={<MenuOutlined />} />
       ) : (
@@ -65,7 +65,6 @@ const Header: React.FC<HeaderProps> = ({name, onLogout, onShareClick, onSelectTa
           {isLoggedIn ? (
             <div className="desktop-menu-buttons">
               <Menu mode="horizontal" defaultSelectedKeys={['1']} className="menu" onClick={(e) => {
-                // Check the selected key and pass whether it's Favorite to the parent component
                 onSelectTab(e.key === '2');
               }}>
                 <Menu.Item key="1">Home</Menu.Item>
@@ -74,12 +73,12 @@ const Header: React.FC<HeaderProps> = ({name, onLogout, onShareClick, onSelectTa
               <div className="user-actions">
                 <Button type="primary" onClick={onShareClick}>Share Pic</Button>
                 <span className="user-name">Hi {username}</span>
-                <Button type="default" onClick={onLogout}>Log out</Button>
+                <Button type="default" href='/login' onClick={onLogout}>Log out</Button>
               </div>
             </div>
           ) : (
             <div className="login-actions">
-              <Button type="primary" className="login-btn">Log In</Button>
+              <Button type="primary" href='/login' className="login-btn">Log In</Button>
             </div>
           )}
         </div>

@@ -10,7 +10,7 @@ const LoginPage: React.FC<LoginProps> = ({handleSubmit}) => {
   const [username,setUsername] = useState<string>('')
 
   return (
-    <div className="login-page">
+    <div className="login-page" id='login'>
       <Form
         name="login"
         layout="vertical"
