@@ -8,5 +8,5 @@ export class CreatePhotoDto {
   title: string;
 
   @IsNumber()
-  userId: number;
+  user_id: number;
 }

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Layout, message } from 'antd';
 import Header from './components/Header/Header';
@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import HomePage from './pages/HomePage/HomePage';
 import ShareModal from './components/ShareModal/ShareModal';
 import './App.css';
+import { BASE_URL } from './config';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,12 +17,12 @@ const App: React.FC = () => {
   // Login Function
   const handleSubmit = async (name:string) => {
     try {
-      const response = await fetch('http://localhost:8000/auth/login', {
+      const response = await fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({name}),
+        body: JSON.stringify({username:name}),
       });
       const data = await response.json();
 
@@ -80,9 +81,9 @@ const App: React.FC = () => {
         name={username}
       />
         <Routes>
-            <Route path='/home' element={<HomePage isFavorite={true} />}></Route>
-            {/* <Route path='/home' element={<HomePage isFavorite={false} />}></Route> */}
-            <Route path='/login' element={<LoginPage handleSubmit={handleSubmit} />}></Route>
+        <Route path='/' element={<Navigate to='/home' replace />} />
+        <Route path='/home' element={<HomePage isFavorite={favorites} />}></Route>
+        <Route path='/login' element={<LoginPage handleSubmit={handleSubmit} />}></Route>
         </Routes>
       <ShareModal visible={isModalVisible} onCancel={handleModalCancel} />
     </Layout>

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Param, UseGuards, Put, Headers } from '@nestjs/common';
 import { PhotosService } from './photos.service';
 import { CreatePhotoDto } from './dto/create-photo.dto';
 import { UserAuthGuard } from 'src/shared/guards/user-auth.guard';
@@ -8,14 +8,12 @@ export class PhotosController {
   constructor(private photosService: PhotosService) {}
 
   @Get()
-  findAll(@Query('user_id') userId?: number) {
-    return this.photosService.findAll(userId);
-  }
-
-  @Get('favorites')
-  @UseGuards(UserAuthGuard)
-  getFavorites(@Query('user_id') userId: number) {
-    return this.photosService.getFavorites(userId);
+  findAll(
+    @Headers('user_id') userId: number,
+    @Query('pageNo') pageNo: number,
+    @Query('isFavorite') isFavorite:boolean
+  ) {
+    return this.photosService.findAll(pageNo, userId,isFavorite);
   }
 
   @Post()
@@ -24,9 +22,9 @@ export class PhotosController {
     return this.photosService.create(createPhotoDto);
   }
 
-  @Post(':id/favorite')
+  @Put(':id/favorite')
   @UseGuards(UserAuthGuard)
-  favorite(@Param('id') id: string, @Query('user_id') userId: number) {
-    return this.photosService.favorite(+id, userId);
+  favorite(@Param('id') id: number, @Headers('user_id') userId: number) {
+    return this.photosService.favorite(id, userId);
   }
 }

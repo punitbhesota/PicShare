@@ -10,9 +10,8 @@ interface Post {
   title: string;
   username: string;
   date: Date;
-  link: string;
-  liked: boolean;
-  user_id?: number
+  url: string;
+  isFavorite?: boolean
 }
 
 interface HomePageProps {
@@ -20,25 +19,34 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ isFavorite }) => {
-  const [posts, setPosts] = useState<Post[]>([
-   
-  ]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState(1); 
   const [hasMore, setHasMore] = useState(true); 
   const user_id = localStorage.getItem('user_id'); 
+  const [openFeed,setOpenFeed] = useState(false)
 
-  const fetchPosts = useCallback(async (pageNum: number) => {
+  const fetchPosts = useCallback(async (pageNo: number) => {
     try {
+      const headers:any = {};
+      if (user_id) {
+        headers['user_id'] = user_id;
+      }
+
       const response = await fetch(
-        `${BASE_URL}/photos${
-          user_id ? `?user_id=${user_id}` : ''
-        }`
+        `${BASE_URL}/photos?pageNo=${pageNo}${
+        isFavorite?'&isFavorite=true':''}`,
+        {
+          method: 'GET',
+          headers,
+        }
       );
+
       const data = await response.json();
 
       if (response.ok) {
-        setPosts((prevPosts) => [...prevPosts, ...data?.posts]); 
+        setPosts(data?.posts); 
         setHasMore(data.hasMore);
+        setOpenFeed(data?.feedOpen)
       } else {
         message.error('Failed to fetch posts');
       }
@@ -61,10 +69,11 @@ const HomePage: React.FC<HomePageProps> = ({ isFavorite }) => {
 
   const toggleFavorite = async (postId:number) => {
     try {
-      const response = await fetch(`${BASE_URL}/photos/${postId}/favorite?user_id=${user_id}`, {
-        method: 'POST',
+      const response = await fetch(`${BASE_URL}/photos/${postId}/favorite`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'user_id':user_id+''
         }
       });
 
@@ -73,6 +82,7 @@ const HomePage: React.FC<HomePageProps> = ({ isFavorite }) => {
       if (response.ok) {
         console.log(data)
         message.success("Updated")
+        fetchPosts(page);
       } else {
         message.error('Failed to fetch posts');
       }
@@ -85,24 +95,25 @@ const HomePage: React.FC<HomePageProps> = ({ isFavorite }) => {
     <div className="home-page" id='home'>
       {!user_id?<div className='login-warning'><a href='/login' style={{textDecoration:"none"}}>login</a> to start sharing your favourite pictures with other !</div>:<></>}
       <InfiniteScroll
+        className="infinite-scroll-container"
         dataLength={posts?.length}
         next={fetchMorePosts}
         hasMore={hasMore}
         loader={<h4>Loading more posts...</h4>}
-        endMessage={<p>No more posts to show</p>}
+        // endMessage={<p>No more posts to show</p>}
       >
         <Row gutter={[16, 16]}>
           {posts?.map((post) => (
             <Col key={post.id} xs={24} sm={12} md={8} lg={6}>
               <Card
                 id={post.id}
-                image={post.link}
+                image={post.url}
                 title={post.title}
                 username={post.username}
-                liked={post?.liked}
+                liked={post?.isFavorite || false}
                 date={new Date(post.date)}
-                user_id={post?.user_id}
-                onLikeClick={() => user_id?toggleFavorite(post.id):console.log('liked')}
+                feedOpen={openFeed}
+                onLikeClick={() => openFeed?message.error("Please login first"):toggleFavorite(post.id)}
               />
             </Col>
           ))}

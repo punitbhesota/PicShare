@@ -5,9 +5,9 @@
   align-items: center;
 }
 
-.card {
+/* .card {
   margin-bottom: 20px;
-}
+} */
 
 .ant-card-meta-description p {
   margin: 0;
@@ -20,4 +20,9 @@
   width:80%;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.infinite-scroll-container {
+  overflow-x: hidden; 
+  width: 90vw;
 }

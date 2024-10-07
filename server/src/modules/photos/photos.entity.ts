@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { User } from '../users/users.entity';
+import { Favorite } from '../favorites/favorite.entity';
 
 @Entity()
 export class Photo {
@@ -15,10 +16,10 @@ export class Photo {
   @Column()
   date: Date;
 
-  @ManyToOne(() => User, user => user.photos)
+  @ManyToOne(() => User, user => user.photos, { nullable: false, onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToMany(() => User)
-  @JoinTable()
-  favorites: User[];
+  @OneToMany(() => Favorite, favorite => favorite.photo)
+  favorites: Favorite[];
 }

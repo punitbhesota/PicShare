@@ -22,23 +22,27 @@ const ShareModal: React.FC<ShareModalProps> = ({ visible, onCancel }) => {
 
     try {
       setLoading(true);
-      const response = await fetch(`${BASE_URL}/photos?user_id=${user_id}`, {
+      const response = await fetch(`${BASE_URL}/photos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'user_id':user_id
         },
-        body: JSON.stringify({ url, title }),
+        body: JSON.stringify({ url, title,user_id}),
       });
 
       if (response.ok) {
         message.success('Photo shared successfully!');
         onCancel();
+        window.location.reload()
       } else {
         message.error('Failed to share photo');
       }
     } catch (error) {
       message.error('Request failed');
     } finally {
+      setTitle('')
+      setUrl('')
       setLoading(false);
     }
   };
