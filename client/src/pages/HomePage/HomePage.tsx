@@ -102,7 +102,7 @@ const HomePage: React.FC<HomePageProps> = ({ isFavorite }) => {
         loader={<h4>Loading more posts...</h4>}
         // endMessage={<p>No more posts to show</p>}
       >
-        <Row gutter={[16, 16]}>
+        <div className='image-container'>
           {posts?.map((post) => (
             <Col key={post.id} xs={24} sm={12} md={8} lg={6}>
               <Card
@@ -117,7 +117,7 @@ const HomePage: React.FC<HomePageProps> = ({ isFavorite }) => {
               />
             </Col>
           ))}
-        </Row>
+        </div>
       </InfiniteScroll>
     </div>
   );

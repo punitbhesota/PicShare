@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
-import { Image, Modal } from 'antd';
+import { Modal } from 'antd';
 import moment from 'moment';
 import './Card.css';
 
@@ -28,7 +28,7 @@ const Card: React.FC<CardProps> = ({feedOpen,id, image, title, username, date, l
 
     return (
         <div className='card'>
-             <img alt="post" className='card-image' src={image} onClick={handleImageClick} />
+            <img alt="post" className='card-image' src={image} onClick={handleImageClick} />
             <h2>{title}</h2>
             {!feedOpen?
             <div className='card-info'>
@@ -57,11 +57,9 @@ const Card: React.FC<CardProps> = ({feedOpen,id, image, title, username, date, l
             >
                 <div style={{ position: 'relative', textAlign: 'center' }}>
                     <div style={{
-                        background: 'rgba(0,0,0)',
                         padding: '3px 10px',
                         display:'flex',
                         justifyContent:"space-between",
-                        color:"white",
                         marginTop:'25px'
                     }}>
                         <p>{username}</p>

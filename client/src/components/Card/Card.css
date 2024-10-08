@@ -5,10 +5,11 @@
     padding:10px;
 }
 
-.card-image{  
+.card-image {
     width: 100%;
-    height: 180px;
+    aspect-ratio: 1 / 0.7;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .card-info{
@@ -44,4 +45,5 @@
     font-size: 15px;
     border: none;
     outline: none;
+    cursor: pointer;
 }
